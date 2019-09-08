@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${mapperFullName}" >
+	<!-- Base Result Map-->
+	<resultMap id="BaseResultMap" type="${entityName}" >
+	#foreach($item in $!{columnDatas})
+	<result column="$!item.columnName" property="$item.propertyName"/>
+	#end
+</resultMap>
+
+	<!-- Extend Result Map-->
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="${entityName}">
+	#foreach($item in $!{ReferDatas})
+	<association property="$item.propertyName" column="$item.columnName" resultMap="${packPath}mapper.#if($subPackPath != '')${subPackPath}.#end${item.propertyDName}Mapper.BaseResultMap">
+		</association>
+	#end
+</resultMap>
+       
+	<!-- $!{tableName} table all fields -->
+	<sql id="Base_Column_List" >
+		$!{SQL.queryColumnFields}
+	</sql>
+
+	<sql id="Extend_Column_List" >
+		$!{SQL.extendColumnFilds}
+	</sql>
+   
+	<!-- 基本查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<trim  suffixOverrides="," >
+	#foreach($item in $!{columnDatas})
+		#set($testStr = $!item.propertyName + " != null")
+		#if($!item.dataType == 'String')#set($testStr = $!testStr + " and " + $!item.propertyName + " != ''")#end
+	<if test="$!testStr" > and $!item.columnName =  #{$!item.propertyName}</if>
+	#end
+		</trim>
+		</where>
+	</sql>
+   
+	<!-- 插入记录 -->
+	<insert id="save" parameterType="${entityName}" #if($!primaryKeyMode == 0)useGeneratedKeys="true" keyProperty="$!{SQL.priKey}" #end>
+		$!{SQL.insert}
+	</insert>
+	
+	<!-- 批量插入记录 -->
+	<insert id="saveBatch" parameterType="java.util.List">
+    	$!{SQL.addBatch} 
+  	</insert>
+
+	<!-- 根据id，修改记录-->  
+	<update id="update" parameterType="${entityName}" >
+		$!{SQL.update}
+	</update>
+ 
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateSelective" parameterType="${entityName}" >
+		$!{SQL.updateSelective}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateQuery" >
+		$!{SQL.updateQuery}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		$!{SQL.delete}
+	</delete>
+	
+	<!-- 按id批量删除记录 -->
+	<delete id="deleteBatchIds">
+		$!{SQL.delBatchSql}
+	</delete>
+	
+	<!-- 按条件批量删除记录 -->
+	<delete id="deleteBatch" parameterType = "${entityName}">
+		delete from ${tableName}
+		<include refid="Example_Where_Clause"/> 
+	</delete>
+
+
+	<!-- 根据id查询 ${codeName} -->
+	<select id="queryId"  resultMap="BaseResultMap" parameterType="Object">
+		$!{SQL.selectById}
+	</select>
+
+</mapper>   
