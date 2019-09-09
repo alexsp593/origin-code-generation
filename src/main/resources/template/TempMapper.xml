@@ -3,14 +3,14 @@
 <mapper namespace="${mapperFullName}" >
 	<!-- Base Result Map-->
 	<resultMap id="BaseResultMap" type="${entityName}" >
-	#foreach($item in $!{columnDatas})
+	#foreach($item in $!{columnData})
 	<result column="$!item.columnName" property="$item.propertyName"/>
 	#end
 </resultMap>
 
 	<!-- Extend Result Map-->
 	<resultMap id="extendResultMap" extends="BaseResultMap" type="${entityName}">
-	#foreach($item in $!{ReferDatas})
+	#foreach($item in $!{ReferData})
 	<association property="$item.propertyName" column="$item.columnName" resultMap="${packPath}mapper.#if($subPackPath != '')${subPackPath}.#end${item.propertyDName}Mapper.BaseResultMap">
 		</association>
 	#end
@@ -22,14 +22,14 @@
 	</sql>
 
 	<sql id="Extend_Column_List" >
-		$!{SQL.extendColumnFilds}
+		$!{SQL.extendColumnFields}
 	</sql>
    
 	<!-- 基本查询条件 -->
 	<sql id="Example_Where_Clause">
 		<where>
 			<trim  suffixOverrides="," >
-	#foreach($item in $!{columnDatas})
+	#foreach($item in $!{columnData})
 		#set($testStr = $!item.propertyName + " != null")
 		#if($!item.dataType == 'String')#set($testStr = $!testStr + " and " + $!item.propertyName + " != ''")#end
 	<if test="$!testStr" > and $!item.columnName =  #{$!item.propertyName}</if>

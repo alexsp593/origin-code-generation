@@ -183,7 +183,7 @@ public class CreateBeanService {
         for (int i = 0; i < refDataList.size(); i++) {
             exFields.append(",").append(tableAliases[i + 1]).append(".*");
         }
-        sqlMap.put("extendColumnFilds", exFields.toString());
+        sqlMap.put("extendColumnFields", exFields.toString());
         sqlMap.put("insert", insert.replace("#{createTime}", "now()").replace("#{updateTime}", "now()"));
         sqlMap.put("addBatch", addBatch);
         sqlMap.put("update", update.replace("#{createTime}", "now()").replace("#{updateTime}", "now()"));

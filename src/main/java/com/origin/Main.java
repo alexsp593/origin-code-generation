@@ -26,7 +26,7 @@ public class Main {
     /**
      * 项目代码生成根目录
      */
-    private static String ROOT_PATH = "/Users/alex/Documents/tt/";
+    private static String ROOT_PATH = "*";
     /**
      * 包路径
      */
@@ -54,11 +54,11 @@ public class Main {
     public static void main(String[] args) throws SQLException {
 
         //表名
-        String[] tables = {"blog_article"};
+        String[] tables = {};
         //表的描述
-        String[] codes ={"文章表"};
+        String[] codes ={};
         //主键方式0自动生成，1采用UUID
-        Integer[] keyModes = {0};
+        Integer[] keyModes = {};
 
         //批量生成
 		for (int i = 0; i < tables.length; i++) {

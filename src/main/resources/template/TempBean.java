@@ -13,5 +13,5 @@ public class ${className}Entity implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	${feilds}
+	${fields}
 }

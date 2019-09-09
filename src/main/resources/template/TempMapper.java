@@ -1,7 +1,7 @@
 package ${packPath}mapper;
 
 import ${packPath}model.${className};
-import com.coocaa.base.BaseMapper;
+import com.alex.base.BaseMapper;
 
 /**
  * ${tableNote} Mapper

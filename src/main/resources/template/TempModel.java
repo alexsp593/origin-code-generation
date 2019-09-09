@@ -1,6 +1,6 @@
 package ${packPath}model;
 import java.util.Date;
-import com.coocaa.base.BaseModel;
+import com.coocaa.alex.BaseModel;
 import java.math.BigDecimal;
 /**
  * ${tableNote} Model
@@ -9,5 +9,5 @@ import java.math.BigDecimal;
  * @date ${systemDate}
  */
 public class ${className} extends BaseModel {
-	${modelFeilds}
+	${modelFields}
 }
